@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>宿舍管理系统</title>
+
+    <meta name="description" content="Common form elements and layouts" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../font-awesome/4.5.0/css/font-awesome.min.css" />
+
+    <!-- page specific plugin styles -->
+    <link rel="stylesheet" href="../css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="../css/chosen.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap-timepicker.min.css" />
+    <link rel="stylesheet" href="../css/daterangepicker.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="../css/bootstrap-colorpicker.min.css" />
+
+    <!-- text fonts -->
+    <link rel="stylesheet" href="../css/fonts.googleapis.com.css" />
+
+    <!-- ace styles -->
+    <link rel="stylesheet" href="../css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="../css/ace-skins.min.css" />
+    <link rel="stylesheet" href="../css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+    <link rel="stylesheet" href="../css/ace-ie.min.css" />
+    <![endif]-->
+
+    <!-- inline styles related to this page -->
+
+    <!-- ace settings handler -->
+    <script src="../js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+
+    <!--[if lte IE 8]>
+    <script src="../js/html5shiv.min.js"></script>
+    <script src="../js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="no-skin">
+<div th:replace="~{common/nav::#navbar}"></div>
+
+<div class="main-container ace-save-state" id="main-container">
+    <script type="text/javascript">
+        try{ace.settings.loadState('main-container')}catch(e){}
+    </script>
+
+    <div th:replace="~{common/side::#sidebar}"></div>
+
+    <div class="main-content">
+        <div class="main-content-inner">
+<!--            导航栏-->
+            <div class="breadcrumbs ace-save-state" id="breadcrumbs">
+                <ul class="breadcrumb">
+                    <li>
+                        <i class="ace-icon fa fa-home home-icon"></i>
+                        <a th:href="@{/admin/adminMain}">首页</a>
+                    </li>
+
+                    <li class="active">修改个人信息</li>
+                </ul><!-- /.breadcrumb -->
+
+            </div>
+
+<!--            表格-->
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- PAGE CONTENT BEGINS -->
+                        <form id="formId" class="form-horizontal" role="form">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="name"> 姓名: </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" th:name="name" id="name" th:value="${session.userName}" readonly class="col-xs-10 col-sm-5" />
+                                </div>
+                            </div>
+
+                            <div th:if="!${session.role eq '2'}" class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="userName"> 用户名： </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" th:name="userName" id="userName" th:value="${session.userName}" class="col-xs-10 col-sm-5" />
+                                </div>
+                            </div>
+                            <div th:if="${session.role eq '2'}" class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="studentnumber"> 学号： </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" th:name="studentnumber" id="studentnumber" th:value="${session.id}" readonly class="col-xs-10 col-sm-5" />
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="password"> 密码： </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" th:name="password" id="password" th:value="${session.password}" class="col-xs-10 col-sm-5" />
+
+                                </div>
+                            </div>
+                            <div th:if="!${session.role eq '0'}" class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="dormbuildid"> 宿舍楼id： </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" th:name="dormbuildid" id="dormbuildid" placeholder="宿舍楼id" class="col-xs-10 col-sm-5" />
+                                </div>
+                            </div>
+                            <div th:if="${session.role eq '2'}" class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="dormname"> 寝室名称： </label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" th:name="dormname" id="dormname" placeholder="寝室名称"  class="col-xs-10 col-sm-5" />
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" > 性别： </label>
+
+                                <div class="col-sm-9">
+                                    <input  type="radio"   th:name="sex" value="男" checked="checked"/>男
+                                    <input  type="radio"   th:name="sex" value="女"/>女
+                                </div>
+                            </div>
+
+                            <div class="space-4"></div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label no-padding-right" for="tel">联系电话:</label>
+
+                                <div class="col-sm-9">
+                                    <input class="input-sm" type="text" th:name="tel" id="tel" placeholder="联系电话" />
+
+                                </div>
+                            </div>
+
+
+
+                            <div class="space-4"></div>
+
+
+                            <div class="clearfix form-actions">
+                                <div id="message"></div>
+                                <div class="col-md-offset-3 col-md-9">
+                                    <button id="btn" class="btn btn-info" type="button" onclick="update()">
+                                        <i class="ace-icon fa fa-check bigger-110"></i>
+                                        提交
+                                    </button>
+
+                                    &nbsp; &nbsp; &nbsp;
+                                    <button class="btn" type="reset" >
+                                        <i class="ace-icon fa fa-undo bigger-110"></i>
+                                        重置
+                                    </button>
+                                </div>
+                            </div>
+<!---->
+
+                        </form>
+
+                        <div id="modal-form" class="modal" tabindex="-1">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="blue bigger">Please fill the following form fields</h4>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-5">
+                                                <div class="space"></div>
+
+                                                <input type="file" />
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div><!-- PAGE CONTENT ENDS -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.page-content -->
+        </div>
+    </div><!-- /.main-content -->
+
+<div th:replace="~{common/foot::#footer}"></div>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+    </a>
+</div><!-- /.main-container -->
+
+<!-- basic scripts -->
+
+<!--[if !IE]> -->
+<script src="../js/jquery-2.1.4.min.js"></script>
+
+<!-- <![endif]-->
+
+<!--[if IE]>
+<script src="../js/jquery-1.11.3.min.js"></script>
+<![endif]-->
+<script type="text/javascript">
+    if('ontouchstart' in document.documentElement) document.write("<script src='../js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+</script>
+<script src="../js/bootstrap.min.js"></script>
+
+<!-- page specific plugin scripts -->
+
+<!--[if lte IE 8]>
+<script src="../js/excanvas.min.js"></script>
+<![endif]-->
+<script src="../js/jquery-ui.custom.min.js"></script>
+<script src="../js/jquery.ui.touch-punch.min.js"></script>
+<script src="../js/chosen.jquery.min.js"></script>
+<script src="../js/spinbox.min.js"></script>
+<script src="../js/bootstrap-datepicker.min.js"></script>
+<script src="../js/bootstrap-timepicker.min.js"></script>
+<script src="../js/moment.min.js"></script>
+<script src="../js/daterangepicker.min.js"></script>
+<script src="../js/bootstrap-datetimepicker.min.js"></script>
+<script src="../js/bootstrap-colorpicker.min.js"></script>
+<script src="../js/jquery.knob.min.js"></script>
+<script src="../js/autosize.min.js"></script>
+<script src="../js/jquery.inputlimiter.min.js"></script>
+<script src="../js/jquery.maskedinput.min.js"></script>
+<script src="../js/bootstrap-tag.min.js"></script>
+
+<!-- ace scripts -->
+<script src="../js/ace-elements.min.js"></script>
+<script src="../js/ace.min.js"></script>
+
+<!-- inline scripts related to this page -->
+<script type="text/javascript">
+    function update() {
+        if ($("#name").val()=="") {
+            $("#name").attr("placeholder","姓名不能为空")
+            return;
+        }
+        if ($("#userName").val()=="") {
+            $("#userName").attr("placeholder","用户名不能为空")
+            return;
+        }
+        if ($("#password").val()=="") {
+            $("#password").attr("placeholder","密码不能为空")
+            return;
+        }
+        if($("#dormbuildid").val()==""){
+            $("#dormbuildid").attr("placeholder","宿舍楼id不能为空")
+            return;
+        }
+        if($("#dormname").val()==""){
+            $("#dormname").attr("placeholder","寝室名不能为空")
+            return;
+        }
+        if ($("#tel").val()=="") {
+            $("#tel").attr("placeholder","联系方式不能为空")
+            return;
+        }
+
+      //  $("#formId").submit();
+      $.get("/admin/updateAdmin",{
+          name:$("#name").val(),
+          userName:$("#userName").val(),
+          password:$("#password").val(),
+          sex:$("input[name='sex']:checked").val(),
+          tel:$("#tel").val(),
+          dormbuildid:$("#dormbuildid").val(),
+          dormname:$("#dormname").val(),
+          studentnumber:$("#studentnumber").val()
+      },function (data) {
+           $("#message").html(data);
+      });
+
+
+    };
+
+</script>
+</body>
+</html>
